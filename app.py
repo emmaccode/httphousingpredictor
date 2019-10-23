@@ -1,37 +1,18 @@
-import flask
-import json
+# <--- Deps --->
 from flask import Flask, render_template, request
 from joblib import load
-import pandas as pd
-# <--- Deps --->
-# (Main)
+from random import randint
+
 app = Flask(__name__)
 if __name__ == '__main__':
     app.run()
-
 @app.route('/')
-def template():
-    try:
-        bathrooms = request.args['bathrooms']
-        bedrooms = request.args['bedrooms']
-        squarefeet = request.args['squarefeet']
-        yearbuilt = request.args['yearbuilt']
-    except KeyError as e:
-        return ('Some Values are missing')
-    try:
-        bathrooms = int(bathrooms)
-        bedrooms = int(bedrooms)
-        squarefeet = int(squarefeet)
-        yearbuilt = int(yearbuilt)
-    except ValueError as e:
-        return ('That aint a number, Cowboy.')
-    else:
-        dcry = pd.DataFrame({"YearBuilt": [yearbuilt],
-        "LotSize": [squarefeet],"Bedrooms": [bedrooms],
-        "Bathrooms": [bathrooms]})
-        pipeline = load('alg.sav')
-        estimate = pipeline.predict(dcry)
-        return str(int(estimate))
-
-if __name__ == '__main__':
-    app.run(debug=False)
+def predict():
+        bathrooms = request.get_json['bathrooms']
+        bedrooms = request.get_json['bedrooms']
+        squarefeet = request.get_json['squarefeet']
+        yearbuilt = request.get_json['yearbuilt']
+        inputs = [bathrooms, bedrooms, squarefeet, yearbuilt]
+        pipeline = load('algorithm.sav')
+        estimate = pipeline.predict([inputs])[0]
+        return(flask.jsonify(j=estimate))
