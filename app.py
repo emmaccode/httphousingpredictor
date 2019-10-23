@@ -27,7 +27,7 @@ def template():
         return ('That aint a number, Cowboy.')
     else:
         dta = [bathrooms, bedrooms, squarefeet, yearbuilt]
-        pipeline = load('xgboost.joblib')
+        pipeline = load('algorithm.sav')
         estimate = pipeline.predict([dta])[0]
         return str(int(estimate))
 
