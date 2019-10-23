@@ -8,7 +8,6 @@ from joblib import load
 app = Flask(__name__)
 if __name__ == '__main__':
     app.run()
-CORS(app)
 
 @app.route('/')
 def template():
@@ -20,10 +19,10 @@ def template():
     except KeyError as e:
         return ('Some Values are missing')
     try:
-        bathrooms = float(bathrooms)
-        bedrooms = float(bedrooms)
-        squarefeet = float(squarefeet)
-        yearbuilt = float(yearbuilt)
+        bathrooms = int(bathrooms)
+        bedrooms = int(bedrooms)
+        squarefeet = int(squarefeet)
+        yearbuilt = int(yearbuilt)
     except ValueError as e:
         return ('That aint a number, Cowboy.')
     else:
