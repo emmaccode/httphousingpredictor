@@ -2,7 +2,7 @@ import flask
 import json
 from flask import Flask, render_template, request
 from joblib import load
-
+import pandas as pd
 # <--- Deps --->
 # (Main)
 app = Flask(__name__)
@@ -26,9 +26,11 @@ def template():
     except ValueError as e:
         return ('That aint a number, Cowboy.')
     else:
-        dta = [bathrooms, bedrooms, squarefeet, yearbuilt]
-        pipeline = load('algorithm.sav')
-        estimate = pipeline.predict([dta])[0]
+        dcry = pd.DataFrame({"YearBuilt": [yearbuilt],
+        "LotSize": [squarefeet],"Bedrooms": [bedrooms],
+        "Bathrooms": [bathrooms]})
+        pipeline = load('alg.sav')
+        estimate = pipeline.predict(dcry)
         return str(int(estimate))
 
 if __name__ == '__main__':
