@@ -13,6 +13,7 @@ gunicorn = "*"
 numpy = "*"
 xgboost = "*"
 pandas = "*"
-
+sklearn = "*"
+joblib = "*"
 [requires]
 python_version = "3.7"
